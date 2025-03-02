@@ -2,8 +2,11 @@ services:
   aicamera_pokemon:
     build:
           context: .
+          dockerfile: Dockerfile
     volumes:
-      - ./aicamera_pokemon:/app:cached
+      - .:/app
+      - ../datasets/pokemon/:/app/datasets
+
 
 
 
