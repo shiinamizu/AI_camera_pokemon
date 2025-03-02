@@ -1,0 +1,9 @@
+services:
+  aicamera_pokemon:
+    build:
+          context: .
+    volumes:
+      - ./aicamera_pokemon:/app:cached
+
+
+
