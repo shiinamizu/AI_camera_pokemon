@@ -3,10 +3,13 @@ services:
     build:
           context: .
           dockerfile: Dockerfile
+    environment:
+      - DISPLAY=${DISPLAY}
+
     volumes:
       - .:/app
       - ../datasets/pokemon/:/app/datasets
-
-
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    tty: true
 
 
