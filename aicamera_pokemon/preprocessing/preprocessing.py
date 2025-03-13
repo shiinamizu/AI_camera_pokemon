@@ -59,12 +59,7 @@ def all_images_serch(dir):
         ds.update(shape)
 
     print(ds.data_size_list)
-
-
-
-
-
-
+    showIMG(img)
 
 def main():
 
