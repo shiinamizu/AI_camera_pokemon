@@ -4,3 +4,5 @@ setuptools
 numpy
 opencv-python
 imutils
+einops
+
