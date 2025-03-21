@@ -12,12 +12,9 @@ import torch.nn.functional as F
 import torchvision
 from torchvision import transforms
 import matplotlib.pyplot as plt
-import utils
 
-from scheduler import WarmupMultiStepLR
-
-from datasets.msr import MSRAction3D
-import models.msr as Models
+from datasets.pokemon import Pokemon
+from learn.model import VIT as Models
 
 def train_one_epoch(model, criterion, optimizer, lr_scheduler, data_loader, device, epoch, print_freq):
     model.train()
@@ -34,7 +31,6 @@ def train_one_epoch(model, criterion, optimizer, lr_scheduler, data_loader, devi
         loss.backward()
         optimizer.step()                                      
 
-        acc1, acc5 = utils.accuracy(output, target, topk=(1, 5))
         batch_size = img.shape[0]
         
         lr_scheduler.step()
@@ -54,7 +50,6 @@ def evaluate(model, criterion, data_loader, device,epoch_n):
             output = model(clip)
             loss = criterion(output, target)
 
-            acc1, acc5 = utils.accuracy(output, target, topk=(1, 5))
             prob = F.softmax(input=output, dim=1)
 
             batch_size = clip.shape[0]
@@ -108,19 +103,13 @@ def main(args):
 
     st = time.time()
 
-    dataset = MSRAction3D(
+    dataset = Pokemon(
             root=args.data_path,
-            frames_per_clip=args.clip_len,
-            frame_interval=args.frame_interval,
-            num_points=args.num_points,
             train=True
     )
 
-    dataset_test = MSRAction3D(
+    dataset_test = Pokemon(
             root=args.data_path,
-            frames_per_clip=args.clip_len,
-            frame_interval=args.frame_interval,
-            num_points=args.num_points,
             train=False
     )
 
@@ -166,7 +155,9 @@ def parse_args():
     import argparse
     parser = argparse.ArgumentParser(description='P4Transformer Model Training')
 
-    parser.add_argument('--data-path', default='data/output/', type=str, help='dataset')
+    parser.add_argument('--data-path', default='datasets', type=str, help='dataset')
+    parser.add_argument('--batch_size', default=16, type=int, help='batch_size')
+    parser.add_argument('--learning_rate', default=0.01, type=float, help='lr')
     
     # parser.add_argument('--test', default=False, type=bool, metavar='N', help='start epoch')
     args = parser.parse_args()

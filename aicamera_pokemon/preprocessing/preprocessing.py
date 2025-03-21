@@ -1,5 +1,6 @@
 import os
 import cv2
+import pandas as pd
 
 
 class DataSizes:
@@ -39,7 +40,13 @@ class DataSizes:
         self.addition(data_size)
 
 
-            
+
+
+def analizePokemonCSV(path):
+    df = pd.read_csv(path)
+
+    print(df)
+
         
 
 def showIMG(image):
@@ -64,13 +71,16 @@ def all_images_serch(dir):
 def main():
 
     imgDirPath ="datasets/images/"
+    csvPath ="datasets/pokemon.csv"
 
     
 
     # img = cv2.imread(imgDirPath+dirList[0])
 
     # showIMG(img)
-    all_images_serch(imgDirPath)
+    # all_images_serch(imgDirPath)
+    analizePokemonCSV(csvPath)
+
    
 
 

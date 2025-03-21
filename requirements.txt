@@ -5,4 +5,6 @@ numpy
 opencv-python
 imutils
 einops
+matplotlib
+pandas
 
